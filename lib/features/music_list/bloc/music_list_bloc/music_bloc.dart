@@ -3,6 +3,8 @@ import 'package:meta/meta.dart';
 import 'package:music_dataset_virtualization/features/music_list/model/music_list_model.dart';
 import 'package:music_dataset_virtualization/features/music_list/model/music_repo.dart';
 
+import '../../../../app/core/network/network_info.dart';
+
 part 'music_event.dart';
 
 part 'music_state.dart';
@@ -13,22 +15,27 @@ class MusicBloc extends Bloc<MusicEvent, MusicState> {
   bool isFetching = false;
 
   MusicBloc() : super(MusicInitial()) {
-    /// INITIAL LOAD
     on<MusicListLoadEvent>((event, emit) async {
       emit(MusicLoading());
 
-      try {
-        currentIndex = 0;
+      final isConnected = await NetworkInfo().isConnected();
 
-        final data = await MusicRepo().musicList(
-          query: "a",
-          index: currentIndex,
-          limit: limit,
-        );
+      if (isConnected) {
+        try {
+          currentIndex = 0;
 
-        emit(MusicSuccess(tracks: data?.data ?? [], total: data?.total ?? 0));
-      } catch (e) {
-        emit(MusicError(e.toString()));
+          final data = await MusicRepo().musicList(
+            query: "a",
+            index: currentIndex,
+            limit: limit,
+          );
+
+          emit(MusicSuccess(tracks: data?.data ?? [], total: data?.total ?? 0));
+        } catch (e) {
+          emit(MusicError(e.toString()));
+        }
+      }else{
+        emit(MusicError("No Internet Connectivity"));
       }
     });
 

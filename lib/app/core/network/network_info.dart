@@ -2,20 +2,13 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-abstract class NetworkInfo {
-  Future<bool> isConnected();
+class NetworkInfo{
+  // final Connectivity connectivity;
 
-  Stream<List<ConnectivityResult>> connectivitySubscription();
-}
+  NetworkInfo();
 
-class NetworkInfoImpl implements NetworkInfo {
-  final Connectivity connectivity;
-
-  NetworkInfoImpl(this.connectivity);
-
-  @override
   Future<bool> isConnected() async {
-    final connectivityResult = await connectivity.checkConnectivity();
+    final connectivityResult = await Connectivity().checkConnectivity();
     final result = connectivityResult.first;
     switch (result) {
       case ConnectivityResult.bluetooth:
@@ -33,10 +26,5 @@ class NetworkInfoImpl implements NetworkInfo {
       case ConnectivityResult.other:
         return false;
     }
-  }
-
-  @override
-  Stream<List<ConnectivityResult>> connectivitySubscription() {
-    return connectivity.onConnectivityChanged;
   }
 }

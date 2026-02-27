@@ -6,6 +6,8 @@ class AppRouteSetting {
       NewRelicNavigationObserver()
     ],*/
     // navigatorKey: NavigationService.navigatorKey,
-    routes: []
+    routes: [
+      GoRoute(path: "")
+    ]
   );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music_dataset_virtualization/features/music_list/view/music_detail_screen.dart';
 
 import '../../model/music_list_model.dart';
 
@@ -39,7 +40,9 @@ class MusicTile extends StatelessWidget {
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
 
       onTap: () {
-        /// Next screen later (Track Details)
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (context) => TrackDetailsScreen(trackId: track.id,)));
       },
     );
   }

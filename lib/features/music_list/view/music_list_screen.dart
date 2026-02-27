@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:music_dataset_virtualization/features/music_list/bloc/music_bloc.dart';
-import 'package:music_dataset_virtualization/features/music_list/model/music_list_model.dart';
+import 'package:music_dataset_virtualization/features/music_list/bloc/music_list_bloc/music_bloc.dart';
 import 'package:music_dataset_virtualization/features/music_list/view/widget/music_tile.dart';
 
 class MusicListScreen extends StatefulWidget {

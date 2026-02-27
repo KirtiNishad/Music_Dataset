@@ -1,29 +1,25 @@
 import 'package:dio/dio.dart';
-import 'package:music_dataset_virtualization/app/core/network/api_base_client.dart';
-import 'package:music_dataset_virtualization/features/music_list/model/music_list_model.dart';
 
-class MusicRepo {
-  Future<MusicListModel?> musicList({
-    required String query,
-    required int index,
-    int limit = 50,
-  }) async {
+import '../../../app/core/network/api_base_client.dart';
+import 'music_detail_model.dart';
+
+class TrackRepo {
+  Future<TrackDetailModel> getTrackDetails(int? trackId) async {
     try {
       final response = await ApiBaseClient.client.get(
-        "/search/track",
-        queryParameters: {"q": query, "index": index, "limit": limit},
+        "/track/$trackId",
       );
 
       if (response.statusCode == 200) {
-        return MusicListModel.fromJson(response.data);
+        return TrackDetailModel.fromJson(response.data);
+      } else {
+        throw Exception("Failed to load track");
       }
     } on DioException catch (e) {
       throw _handleError(e);
     } catch (e) {
-      print("Err =================> $e");
-      throw e.toString();
+      throw Exception(e.toString());
     }
-    return null;
   }
 
   String _handleError(DioException e) {

@@ -25,6 +25,7 @@ class ApiBaseClient {
           return handler.next(response);
         },
         onError: (DioException dioError, handler) async {
+          print("Dio Error ==========> $dioError");
           return handler.next(dioError);
         },
       ),
